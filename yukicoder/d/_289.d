@@ -1,0 +1,49 @@
+import std.stdio;
+import std.string;
+import std.conv;
+import std.algorithm;
+import std.range;
+import std.traits;
+import std.math;
+import std.conv;
+import std.typecons;
+import std.uni;
+import std.ascii;
+
+// '1' -> 49
+void main() {
+	auto S = rs;
+	int count;
+	/*foreach(int i; S) {
+		if(i >= 49 && i <= 58) count += (i - 48);
+	}*/
+	foreach(i; S) {
+		if(i.isDigit) count += i.to!string.to!int;
+	}
+	count.writeln;
+}
+
+// ===================================
+
+T readAs(T)() if (isBasicType!T) {
+	return readln.chomp.to!T;
+}
+T readAs(T)() if (isArray!T) {
+	return readln.split.to!T;
+}
+
+T[][] readMatrix(T)(uint height, uint width) if (isBasicType!T) {
+	auto res = new T[][](height, width);
+	foreach(i; 0..height) {
+		res[i] = readAs!(T[]);
+	}
+	return res;
+}
+
+int ri() {
+	return readAs!int;
+}
+
+string rs() {
+	return readln.chomp;
+}

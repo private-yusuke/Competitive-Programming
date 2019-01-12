@@ -1,0 +1,1 @@
+import std.stdio,std.conv,std.algorithm,std.range,std.string;void main(){((N,a)=>writeln(std.algorithm.reduce!(std.algorithm.min)(std.algorithm.map!(i=>std.algorithm.sum(std.algorithm.map!(e=>(e-i)^^2)(a)))(std.range.iota(-100, 101)))))(std.conv.to!int(std.string.chomp(std.stdio.readln)),std.conv.to!(int[])(std.range.split(std.stdio.readln)));}
