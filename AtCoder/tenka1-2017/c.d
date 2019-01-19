@@ -1,30 +1,16 @@
 void main() {
-	auto ip = readAs!(int[]), A = ip[0], B = ip[1], C = ip[2], D = ip[3], E = ip[4], F = ip[5];
-	
-	auto percent = E / (100 + E).to!real;
-	auto tmp = 0.;
-	auto resm = 0;
-	auto ress = 0;
-	
-	foreach(i; iota(0, F+1, 100*A)) {
-		foreach(j; iota(0, F+1, 100*B)) {
-			foreach(k; iota(0, F+1, C)) {
-				foreach(l; iota(0, F+1, D)) {
-					auto div = i + j + k + l;
-					auto num = k + l;
-					if(div == 0 || num == 0 || div > F) continue;
-					auto card = num / div.to!real;
-					if(card > percent) continue;
-					if(tmp < card) {
-						tmp = card;
-						resm = num;
-						ress = div;
-					}
-				}
+	auto N = readAs!long;
+	foreach(h; 1..3501) {
+		foreach(n; 1..3501) {
+			auto div = 4*h*n - N*h - N*n;
+			auto num = N*n*h;
+			if(div <= 0) continue;
+			if(num % div == 0) {
+				writefln("%d %d %d", h, n, num / div);
+				return;
 			}
 		}
 	}
-	writefln("%d %d", ress, resm);
 }
 
 // ===================================
