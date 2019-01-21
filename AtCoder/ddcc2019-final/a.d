@@ -1,20 +1,19 @@
 void main() {
-	auto ip = readAs!(int[]), N = ip[0], K = ip[1];
-	auto t = new int[](N);
-	auto d = new int[](N);
-	alias Sushi = Tuple!(int, "t", int, "d");
-	Sushi[] arr;
-	foreach(i; 0..N) {
-		auto ip2 = readAs!(int[]), T = ip2[0], D = ip2[1];
-		arr ~= Sushi(T, D);
+	auto N = ri;
+	auto S = rs;
+	real res = 0;
+	ulong cnt, m;
+	foreach(i, v; S) {
+		if(v == '-') {
+			cnt = 0;
+		} else {
+			cnt++;
+			m = max(m, cnt);
+		}
+		res += 1. / (cnt + 1).to!real;
 	}
-	
-	arr.sort!"a.d > b.d"();
-	Sushi[] tmp = arr[0..K].dup();
-	foreach(i, v; arr[K..$]) {
-		auto indices = tmp.map!(i => i.t).sort().group.filter!(i => i[1] > 1).map!(i => i[0]);
-		
-	}
+	res -= 1.0 - 1. / (m + 2).to!real;
+	writefln("%.9f", res);
 }
 
 // ===================================
