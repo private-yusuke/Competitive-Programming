@@ -1,11 +1,35 @@
 void main() {
-	auto ip = readAs!(long[]), K = ip[0], A = ip[1], B = ip[2];
-	if(K+1 < A || B - A <= 2) {
-		writeln(K+1);
+	auto ip = readAs!(ulong[]), K = ip[0], A = ip[1], B = ip[2];
+	ulong res, bis, yen;
+	bis = 1;
+	if(A+1 < B) {
+		if(K < A+1) {
+			writeln(1+K);
+			return;
+		}
+		K -= A-1;
+		//K.writeln;
+		yen++;
+		bis = A;
+		while(K != 0) {
+			auto m = bis / A;
+			//writefln("K: %d, m: %d, bis: %d", K, m, bis);
+			if(K < 2*m) {
+				bis += (K / 2) * B;
+				bis -= (K / 2) * A;
+				if(K % 2) bis++;
+				bis.writeln;
+				return;
+			}
+			K-=2*m;
+			bis -= A*m;
+			bis += m * B;
+		}
+		bis.writeln;
 		return;
+	} else {
+		writeln(1+K);
 	}
-	K -= A-1;
-	writeln((B-A) * (K/2) + K%2 + A);
 }
 
 // ===================================
