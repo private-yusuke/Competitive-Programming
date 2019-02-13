@@ -1,25 +1,46 @@
-void main() {
-	// ((A, B) => A > B ? "GREATER" : A < B ? "LESS" : "EQUAL")(BigInt(rs), BigInt(rs)).writeln;
-	auto A = rs, B = rs;
-	if(A.length == B.length) {
-		if(A[0] > B[0]) writeln("GREATER");
-		else if(A[0] == B[0]) writeln("EQUAL");
-		else writeln("LESS");
-	} else {
-		if(A.length > B.length) writeln("GREATER");
-		else writeln("LESS");
+ulong[] A;
+
+ulong cost(ulong i, ulong j) {
+	switch(j) {
+		case 0, 4: // never visit there
+			return A[i];
+		case 1, 3: // even(x > 0)
+			return A[i] == 0 ? 2 : A[i] % 2;
+		case 2: // odd
+			return (A[i] + 1) % 2;
+		default: return 0;
 	}
+}
+
+// dp[i][j]
+// i: point
+// j: current mode(details on editorial)
+
+// allowed to move any times
+// just need to take care of the parity of A[i]
+
+void main() {
+	auto L = ri;
+	A = L.iota.map!(i => readAs!ulong).array;
+	auto dp = new ulong[][](L+1, 5);
+	foreach(ref v; dp) v[] = INF;
+	dp[0][0] = 0;
+	foreach(i; 0..L) foreach(j; 0..5) foreach(k; j..5) {
+		dp[i+1][k] = min(dp[i+1][k], dp[i][j] + cost(i, k));
+	}
+	dp[L].reduce!min.writeln;
 }
 
 // ===================================
 
 import std.stdio;
 import std.string;
-import std.conv;
+import std.functional;
 import std.algorithm;
 import std.range;
 import std.traits;
 import std.math;
+import std.container;
 import std.bigint;
 import std.numeric;
 import std.conv;
@@ -28,6 +49,8 @@ import std.uni;
 import std.ascii;
 import std.bitmanip;
 import core.bitop;
+
+const long INF = 1UL << 60;
 
 T readAs(T)() if (isBasicType!T) {
 	return readln.chomp.to!T;

@@ -1,25 +1,27 @@
 void main() {
-	// ((A, B) => A > B ? "GREATER" : A < B ? "LESS" : "EQUAL")(BigInt(rs), BigInt(rs)).writeln;
-	auto A = rs, B = rs;
-	if(A.length == B.length) {
-		if(A[0] > B[0]) writeln("GREATER");
-		else if(A[0] == B[0]) writeln("EQUAL");
-		else writeln("LESS");
-	} else {
-		if(A.length > B.length) writeln("GREATER");
-		else writeln("LESS");
+	int[] arr;
+	foreach(_; 0..3) {
+		auto ip = readAs!(int[]), a = ip[0], b = ip[1];
+		arr ~= a; arr ~= b;
 	}
+	arr.sort();
+	auto a = arr.group();
+	auto b = a.map!(i => i[1]);
+	if(b.count(2) == 2 && b.count(1) == 2) {
+		writeln("YES");
+	} else writeln("NO");
 }
 
 // ===================================
 
 import std.stdio;
 import std.string;
-import std.conv;
+import std.functional;
 import std.algorithm;
 import std.range;
 import std.traits;
 import std.math;
+import std.container;
 import std.bigint;
 import std.numeric;
 import std.conv;

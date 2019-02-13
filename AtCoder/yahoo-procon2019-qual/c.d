@@ -1,13 +1,34 @@
 void main() {
-	// ((A, B) => A > B ? "GREATER" : A < B ? "LESS" : "EQUAL")(BigInt(rs), BigInt(rs)).writeln;
-	auto A = rs, B = rs;
-	if(A.length == B.length) {
-		if(A[0] > B[0]) writeln("GREATER");
-		else if(A[0] == B[0]) writeln("EQUAL");
-		else writeln("LESS");
+	auto ip = readAs!(ulong[]), K = ip[0], A = ip[1], B = ip[2];
+	ulong res, bis, yen;
+	bis = 1;
+	if(A+1 < B) {
+		if(K < A+1) {
+			writeln(1+K);
+			return;
+		}
+		K -= A-1;
+		//K.writeln;
+		yen++;
+		bis = A;
+		while(K != 0) {
+			auto m = bis / A;
+			//writefln("K: %d, m: %d, bis: %d", K, m, bis);
+			if(K < 2*m) {
+				bis += (K / 2) * B;
+				bis -= (K / 2) * A;
+				if(K % 2) bis++;
+				bis.writeln;
+				return;
+			}
+			K-=2*m;
+			bis -= A*m;
+			bis += m * B;
+		}
+		bis.writeln;
+		return;
 	} else {
-		if(A.length > B.length) writeln("GREATER");
-		else writeln("LESS");
+		writeln(1+K);
 	}
 }
 
@@ -15,11 +36,12 @@ void main() {
 
 import std.stdio;
 import std.string;
-import std.conv;
+import std.functional;
 import std.algorithm;
 import std.range;
 import std.traits;
 import std.math;
+import std.container;
 import std.bigint;
 import std.numeric;
 import std.conv;

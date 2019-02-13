@@ -1,25 +1,18 @@
 void main() {
-	// ((A, B) => A > B ? "GREATER" : A < B ? "LESS" : "EQUAL")(BigInt(rs), BigInt(rs)).writeln;
-	auto A = rs, B = rs;
-	if(A.length == B.length) {
-		if(A[0] > B[0]) writeln("GREATER");
-		else if(A[0] == B[0]) writeln("EQUAL");
-		else writeln("LESS");
-	} else {
-		if(A.length > B.length) writeln("GREATER");
-		else writeln("LESS");
-	}
+	auto ip = readAs!(int[]), N = ip[0], K = ip[1];
+	writeln((N + 1) / 2 >= K ? "YES" : "NO");
 }
 
 // ===================================
 
 import std.stdio;
 import std.string;
-import std.conv;
+import std.functional;
 import std.algorithm;
 import std.range;
 import std.traits;
 import std.math;
+import std.container;
 import std.bigint;
 import std.numeric;
 import std.conv;
