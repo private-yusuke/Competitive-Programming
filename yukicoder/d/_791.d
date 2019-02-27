@@ -1,11 +1,18 @@
 void main() {
+	auto N = rs;
+	if(N[0] != '1' || N.length == 1 || N[1..$].any!(i => i != '3')) {
+		writeln(-1);
+		return;
+	}
+	writeln(N.length - 1);
+	
 }
 
 // ===================================
 
 import std.stdio;
 import std.string;
-import std.conv;
+import std.functional;
 import std.algorithm;
 import std.range;
 import std.traits;
@@ -54,16 +61,4 @@ double rd() {
 
 string rs() {
 	return readln.chomp;
-}
-
-T[] deepcopy(T)(T[] a) {
-	static if(isArray!T) {
-		T[] res;
-		foreach(i; a) {
-			res ~= deepcopy(i);
-		}
-		return res;
-	} else {
-		return a.dup;
-	}
 }
