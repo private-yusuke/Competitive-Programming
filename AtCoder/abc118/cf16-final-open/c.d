@@ -1,22 +1,47 @@
 void main() {
 	auto ip = readAs!(int[]), N = ip[0], M = ip[1];
-	auto A = readAs!(int[]);
-	
-	int[] c = [2,5,5,4,5,6,3,7,6];
-	auto dp = new string[](11000);
-	dp[] = "ア!w";
-	dp[0] = "";
-	void chmax(ref string a, string b) {
-		if(a == "ア!w") a = b;
-		else if(a.length < b.length) a = b;
-		else if(a.length == b.length && a < b) a = b;
+	auto uf = new UnionFind!int(M+1);
+	auto rbt = redBlackTree!int;
+	foreach(i; 0..N) readAs!(int[])[1..$].tee!(i => rbt.insert(i)).array.zurasu(2).filter!(i => i.length == 2).each!(v => uf.unite(v[0], v[1]));
+	auto rbt2 = redBlackTree!int;
+	foreach(v; rbt) rbt2.insert(uf.root(v));
+	if(rbt2.array.length == 1) writeln("YES");
+	else writeln("NO");
+}
+
+// AtCoder上のDMDのバージョンが低いので、slideが使えない。代替策。
+int[][] zurasu(int[] arr, ulong n) {
+	typeof(return) res;
+	foreach(i; 0..max(0, arr.length.to!int-n+1)) {
+		res ~= arr[i..i+n];
 	}
-	
-	foreach(i; 0..10000) {
-		if(dp[i] == "ア!w") continue;
-		foreach(v; A) chmax(dp[i+c[v-1]], dp[i] ~ v.to!string);
+	return res;
+}
+
+class UnionFind(T) {
+	T[] arr;
+	this(ulong n) {
+		arr.length = n;
+		arr[] = -1;
 	}
-	dp[N].writeln;
+	T root(T x) {
+		return arr[x] < 0 ? x : root(arr[x]);
+	}
+	bool same(T x, T y) {
+		return root(x) == root(y);
+	}
+	bool unite(T x, T y) {
+		x = root(x);
+		y = root(y);
+		if(x == y) return false;
+		if(arr[x] > arr[y]) swap(x, y);
+		arr[x] += arr[y];
+		arr[y] = x;
+		return true;
+	}
+	T size(T a) {
+		return -arr[root(a)];
+	}
 }
 
 // ===================================

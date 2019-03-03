@@ -1,22 +1,38 @@
 void main() {
-	auto ip = readAs!(int[]), N = ip[0], M = ip[1];
-	auto A = readAs!(int[]);
+	auto n = readAs!ulong;
+	auto arr = factorizate(n);
 	
-	int[] c = [2,5,5,4,5,6,3,7,6];
-	auto dp = new string[](11000);
-	dp[] = "ア!w";
-	dp[0] = "";
-	void chmax(ref string a, string b) {
-		if(a == "ア!w") a = b;
-		else if(a.length < b.length) a = b;
-		else if(a.length == b.length && a < b) a = b;
+}
+
+ulong[ulong] factorizate(ulong N) {
+	auto arr = generate_prime_list(N);
+	ulong[ulong] res;
+	foreach(v; arr) {
+		ulong k = 1;
+		while(N % (v ^^ k) == 0) {
+			k++;
+		}
+		if(k!=1) res[v] = k-1;
 	}
-	
-	foreach(i; 0..10000) {
-		if(dp[i] == "ア!w") continue;
-		foreach(v; A) chmax(dp[i+c[v-1]], dp[i] ~ v.to!string);
+	return res;
+}
+
+ulong[] generate_prime_list(T)(T N) if(isIntegral!T) {
+	ulong[] prime_list = [2];
+	bool not_prime = false;
+	foreach(i; 3..N.to!ulong+1) {
+		auto p = i.to!float.sqrt.ceil.to!ulong;
+		foreach(j; prime_list) {
+			if(j > p) break;
+			if(i % j == 0) {
+				not_prime = true;
+				break;
+			}
+		}
+		if(!not_prime) prime_list ~= i;
+		not_prime = false;
 	}
-	dp[N].writeln;
+	return prime_list;
 }
 
 // ===================================

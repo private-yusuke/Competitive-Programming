@@ -1,22 +1,5 @@
 void main() {
-	auto ip = readAs!(int[]), N = ip[0], M = ip[1];
-	auto A = readAs!(int[]);
 	
-	int[] c = [2,5,5,4,5,6,3,7,6];
-	auto dp = new string[](11000);
-	dp[] = "ア!w";
-	dp[0] = "";
-	void chmax(ref string a, string b) {
-		if(a == "ア!w") a = b;
-		else if(a.length < b.length) a = b;
-		else if(a.length == b.length && a < b) a = b;
-	}
-	
-	foreach(i; 0..10000) {
-		if(dp[i] == "ア!w") continue;
-		foreach(v; A) chmax(dp[i+c[v-1]], dp[i] ~ v.to!string);
-	}
-	dp[N].writeln;
 }
 
 // ===================================
