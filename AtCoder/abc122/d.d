@@ -1,44 +1,39 @@
+char t(ulong c) {
+	switch(c) {
+		case 0: return 'A';
+		case 1: return 'C';
+		case 2: return 'G';
+		case 3: return 'T';
+		default: return 'x';
+	}
+}	
+
 void main() {
 	auto N = ri;
 	ulong MOD = 1000000007;
-	if(N == 3) {
-		writeln(61);
-		return;
+	
+	auto dp = new long[][][][](N+1, 4, 4, 4);
+	dp[0][3][3][3] = 1;
+	
+	foreach(n; 0..N) foreach(t1; 0..4) foreach(t2; 0..4) foreach(t3; 0..4) {
+		if(dp[n][t1][t2][t3] == 0) continue;
+		foreach(a; 0..4) {
+			char c1 = t1.t, c2 = t2.t, c3 = t3.t, c4 = a.t;
+			if([c1, c3, c4] == "AGC") continue;
+			if([c1, c2, c4] == "AGC") continue;
+			if([c2, c3, c4] == "AGC") continue;
+			if([c2, c3, c4] == "GAC") continue;
+			if([c2, c3, c4] == "ACG") continue;
+			dp[n+1][t2][t3][a] += dp[n][t1][t2][t3];
+			dp[n+1][t2][t3][a] %= MOD;
+		}
 	}
-	ulong fact(ulong i, ulong n = 1) {
-		if(i == 1) return n;
-		else return fact(i-1, (n*i)%MOD);
+	long res;
+	foreach(t1; 0..4) foreach(t2; 0..4) foreach(t3; 0..4) {
+		res += dp[N][t1][t2][t3];
+		res %= MOD;
 	}
-	ulong modpow(ulong i, ulong k, ulong n = 1) {
-		if(i == 0) return n;
-		else return modpow(i-1, k, (n*k)%MOD);
-	}
-	
-	ulong res = modpow(N, 4);
-	ulong tmp = fact(N-2);
-	tmp *= 3;
-	tmp %= MOD;
-	tmp = modpow(N-3, 4, tmp);
-	res -= tmp;
-	debug res.writeln;
-	debug tmp.writeln;
-	
-	tmp = fact(N-3);
-	tmp = modpow(N-3, 4, tmp);
-	debug tmp.writeln;
-	((res - tmp) % MOD).writeln;
-	
-	
-	/*
-	ulong res = modpow(N, 4);
-	ulong tmp = fact(N-3);
-	tmp *= fact(N-3);
-	tmp %= MOD;
-	tmp = modpow(N-4, 4, tmp);
-	tmp *= (3*4*(N-2) + 2);
-	tmp %= MOD;
-	((res - tmp) % MOD).writeln;
-	*/
+	res.writeln;
 }
 
 // ===================================
