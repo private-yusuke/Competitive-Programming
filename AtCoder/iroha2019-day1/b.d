@@ -1,5 +1,7 @@
 void main() {
-	rs[0].writeln;
+	auto S = rs;
+	auto K = ri % S.length;
+	writeln(S[K..$] ~ S[0..K]);
 }
 
 // ===================================

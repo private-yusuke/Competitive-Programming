@@ -1,5 +1,7 @@
 void main() {
-	rs[0].writeln;
+	auto ip = readAs!(int[]), N = ip[0], A = ip[1], B = ip[2];
+	auto D = readAs!(int[]);
+	
 }
 
 // ===================================

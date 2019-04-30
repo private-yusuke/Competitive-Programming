@@ -1,5 +1,14 @@
 void main() {
-	rs[0].writeln;
+	auto ip = readAs!(int[]), N = ip[0], X = ip[1], Y = ip[2];
+	auto A = readAs!(int[]).sort!"a > b"().array;
+
+	foreach(i; 0..N) {
+		if(i % 2 == 0) X += A[i];
+		else Y += A[i];
+	}
+	if(X > Y) writeln("Takahashi");
+	else if(X < Y) writeln("Aoki");
+	else writeln("Draw");
 }
 
 // ===================================

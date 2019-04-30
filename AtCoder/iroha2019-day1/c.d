@@ -1,5 +1,6 @@
 void main() {
-	rs[0].writeln;
+	auto N = ri;
+	iota(N-7, N+1).each!writeln;
 }
 
 // ===================================
