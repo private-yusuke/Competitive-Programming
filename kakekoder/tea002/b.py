@@ -1,0 +1,1 @@
+print("Yes" if sum(map(int, input().split())) % 4 == 0 else "No")
