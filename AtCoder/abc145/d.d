@@ -1,35 +1,45 @@
-long[][] dp;
-const ulong MAX = 1000000;
-long[] fact, fact_inv, inv;
-ulong MOD = 1000000007;
-
 void main() {
 	auto ip = readAs!(int[]), X = ip[0], Y = ip[1];
-	fact = new long[](MAX);
-	fact_inv = new long[](MAX);
-	inv = new long[](MAX);
-
-	fact[0] = fact[1] = 1;
-	fact_inv[0] = fact_inv[1] = 1;
-	inv[1] = 1;
-	foreach(i; 2..MAX) {
-		fact[i] = fact[i - 1] * i % MOD;
-		inv[i] = MOD - inv[MOD%i] * (MOD / i) % MOD;
-		fact_inv[i] = fact_inv[i - 1] * inv[i] % MOD;
-	}
-
-	long COM(int n, int k) {
-		if(n < k) return 0;
-		if(n < 0 || k < 0) return 0;
-		return fact[n] * (fact_inv[k] * fact_inv[n - k] % MOD) % MOD;
-	}
-
 	auto k = (X + Y) / 3;
 	if((X + Y) % 3 != 0) {
 		writeln(0);
 		return;
 	}
-	COM(k, X-k).writeln;
+	new COM(max(X, Y) + 1, 1000000007).nCr(k, X-k).writeln;
+}
+
+class COM {
+	long[] fact, finv, inv;
+	private ulong MAX;
+	private ulong MOD;
+
+	this(ulong MAX, ulong MOD) {
+		this.MAX = MAX;
+		this.MOD = MOD;
+		fact = new long[](MAX);
+		finv = new long[](MAX);
+		inv = new long[](MAX);
+
+		// initialize the arrays
+		fact[0] = fact[1] = 1;
+		finv[0] = finv[1] = 1;
+		inv[1] = 1;
+		foreach(i; 2..MAX) {
+			fact[i] = fact[i - 1] * i % MOD;
+			inv[i] = MOD - inv[MOD%i] * (MOD / i) % MOD;
+			finv[i] = finv[i - 1] * inv[i] % MOD;
+		}
+	}
+
+	ulong nCr(long n, long k) {
+		if(n < k) return 0;
+		if(n < 0 || k < 0) return 0;
+		assert(n < MAX && k < MAX);
+		return fact[n] * (finv[k] * finv[n - k] % MOD) % MOD;
+	}
+	ulong factorial(long n) {
+		return fact[n];
+	}
 }
 
 // ===================================
