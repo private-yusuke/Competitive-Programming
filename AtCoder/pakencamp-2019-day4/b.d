@@ -1,25 +1,11 @@
 void main() {
-	auto ip = readAs!(ulong[]), N = ip[0], M = ip[1];
-	auto A = readAs!(ulong[]);
-	alias Pair = Tuple!(ulong, "B", ulong, "C");
-	Pair[] pairs = A.sort().group.map!(v => Pair(v[1], v[0])).array;
-	foreach(_; 0..M) {
-		auto ip2 = readAs!(ulong[]), B = ip2[0], C = ip2[1];
-		pairs ~= Pair(B, C);
-	}
-	pairs.sort!((a, b) => a.C > b.C)();
-	ulong res;
-	ulong cnt;
-	foreach(p; pairs) {
-		if(p.B > N - cnt) {
-			res += (N - cnt) * p.C;
-			break;
-		} else {
-			cnt += p.B;
-			res += p.C * p.B;
-		}
-	}
-	res.writeln;
+	auto N = ri;
+	auto v = [1,6,31,156,781,3906,19531,97656,488281,2441406,
+ 12207031,61035156,305175781,1525878906,7629394531,
+ 38146972656,190734863281,953674316406,
+ 4768371582031,23841857910156,119209289550781,
+ 596046447753906,2980232238769531];
+ 	writeln(v[N]);
 }
 
 // ===================================
