@@ -9,6 +9,7 @@ class UnionFind(T) {
 	}
 	bool same(T x, T y) {
 		return root(x) == root(y);
+	}
 	bool unite(T x, T y) {
 		x = root(x);
 		y = root(y);
