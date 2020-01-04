@@ -1,11 +1,12 @@
 void main() {
-	auto N = ri;
-	auto ip = readAs!(string[]), S = ip[0], T = ip[1];
-	foreach(i; 0..N) {
-		write(S[i]);
-		write(T[i]);
-	}
-	writeln;
+	((N, arr) =>
+		((S, T) =>
+			zip(S, T).
+			map!(p =>
+				format("%s%s", p[0], p[1]))
+			.join
+		)(arr[0], arr[1])
+	)(readln.chomp.to!int, readln.split.to!(string[])).writeln;
 }
 
 // ===================================
