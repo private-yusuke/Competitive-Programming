@@ -1,28 +1,20 @@
 void main() {
-	auto ip = readAs!(int[]), N = ip[0], K = ip[1];
-	auto S = rs.group.array;
-	if(S.length == 1) {
-		writeln(N);
-		return;
-	}
-	ulong res;
-	auto R = S.length - K;
-	if(S.back[0] == '1') R++;
-	auto upper = S.length;
-	auto arr = new ulong[](S.length+1);
-	arr[1] = S[0][1];
-	foreach(i; 2..S.length+1) arr[i] = arr[i-1] + S[i-1][1];
-	debug arr.writeln;
-	foreach(i; 0..R) {
-		if(S[i][0] == '0') {
-			auto r = min(i+2*K, upper);
-			debug writefln("%d %d: %d - %d = %d", r, i, arr[r], arr[i], arr[r] - arr[i]);
-			res = max(res, arr[r] - arr[i]);
-		} else {
-			auto r = min(i+2*K+1, upper);
-			debug writefln("%d %d: %d - %d = %d", r, i, arr[r], arr[i], arr[r] - arr[i]);
-			res = max(res, arr[r] - arr[i]);
+	auto N = ri;
+	auto c = rs;
+	ulong res = ulong.max;
+	foreach(c1; "ABXY") foreach(c2; "ABXY") foreach(c3; "ABXY") foreach(c4; "ABXY") {
+		auto abbr1 = [c1, c2];
+		auto abbr2 = [c3, c4];
+		auto dp = new ulong[](N);
+		foreach(i, ref v; dp) v = i + 1;
+		foreach(i; 1..N) {
+			auto p = c[i-1..i+1];
+			if(p == abbr1 || p == abbr2) {
+				if(i == 1) dp[i] = 1;
+				else dp[i] = dp[i-2] + 1;
+			} else dp[i] = dp[i-1] + 1;
 		}
+		res = min(res, dp.back);
 	}
 	res.writeln;
 }
