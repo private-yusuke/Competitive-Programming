@@ -1,3 +1,6 @@
+/*
+ * Only N <= 10^7 is acceptable since its computational complexity is O(MAX)
+ */
 class COM {
 	long[] fact, finv, inv;
 	private ulong MAX;
@@ -32,6 +35,24 @@ class COM {
 	}
 }
 
+ulong mod_comb(long n, long r, long m) {
+	if(n < r || n < 0 || r < 0) return 0;
+	if(r == 0) return 1;
+	if(r == 1) return n;
+	auto inv = new ulong[](r+1);
+	auto finv = new ulong[](r+1);
+	inv[1] = 1;
+	finv[0] = finv[1] = 1;
+	foreach(i; 2..r+1) {
+		inv[i] = m - inv[m % i] * (m / i) % m;
+		finv[i] = finv[i - 1] * inv[i] % m;
+	}
+	ulong res = 1;
+	foreach(i; n-r+1..n+1) (res *= i) %= m;
+	(res *= finv[r]) %= m;
+	return res;
+}
+
 unittest {
 	const ulong MAX = 10000001;
 	auto FP = new COM(MAX, 1000000007);
@@ -59,4 +80,23 @@ unittest {
 	assert(FP.nCr(-1, 0) == 0);
 	assert(FP.nCr(0, -1) == 0);
 	assert(FP.nCr(-1, -1) == 0);
+}
+
+unittest {
+	const ulong MOD = 1000000007;
+	// ABC145 D - Knight's Sample Input 3
+	assert(mod_comb((999999*2 / 3), 999999 - (999999*2 / 3), MOD) == 151840682);
+
+	// Wolfram Alpha "nCr(1234567, 13) mod 1000000007"
+	assert(mod_comb(1234567, 13, MOD) == 233743092);
+
+	assert(mod_comb(0, 0, MOD) == 1);
+	assert(mod_comb(1, 0, MOD) == 1);
+	assert(mod_comb(0, 1, MOD) == 0);
+	assert(mod_comb(1, 1, MOD) == 1);
+	assert(mod_comb(6, 1, MOD) == 6);
+	assert(mod_comb(5, 2, MOD) == 10);
+	assert(mod_comb(-1, 0, MOD) == 0);
+	assert(mod_comb(0, -1, MOD) == 0);
+	assert(mod_comb(-1, -1, MOD) == 0);
 }
