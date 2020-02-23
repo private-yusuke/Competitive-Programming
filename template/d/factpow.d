@@ -1,5 +1,7 @@
 /*
- * Only N <= 10^7 is acceptable since its computational complexity is O(MAX)
+ * Only N <= 10^7 is acceptable.
+ * preparation: O(MAX)
+ * query: O(1)
  */
 class COM {
 	long[] fact, finv, inv;
@@ -35,8 +37,13 @@ class COM {
 	}
 }
 
+/*
+ * N <= 10^18, r <= 10^7 is acceptable.
+ * query: O(r)
+ */
 ulong mod_comb(long n, long r, long m) {
 	if(n < r || n < 0 || r < 0) return 0;
+	if(r*2 > n) r = n - r;
 	if(r == 0) return 1;
 	if(r == 1) return n;
 	auto inv = new ulong[](r+1);
@@ -80,6 +87,10 @@ unittest {
 	assert(FP.nCr(-1, 0) == 0);
 	assert(FP.nCr(0, -1) == 0);
 	assert(FP.nCr(-1, -1) == 0);
+	assert(FP.nCr(5, 4) == 5);
+	assert(FP.nCr(5, 1) == 5);
+	assert(FP.nCr(5, 5) == 1);
+	assert(FP.nCr(5, 0) == 1);
 }
 
 unittest {
@@ -99,4 +110,9 @@ unittest {
 	assert(mod_comb(-1, 0, MOD) == 0);
 	assert(mod_comb(0, -1, MOD) == 0);
 	assert(mod_comb(-1, -1, MOD) == 0);
+	assert(mod_comb(5, 4, MOD) == 5);
+	assert(mod_comb(5, 1, MOD) == 5);
+	assert(mod_comb(5, 5, MOD) == 1);
+	assert(mod_comb(5, 0, MOD) == 1);
+
 }
