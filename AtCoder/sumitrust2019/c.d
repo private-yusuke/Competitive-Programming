@@ -1,5 +1,25 @@
 void main() {
+	auto X = ri;
+	int now;
 
+	if(X % 105 == 0) {
+		writeln(1);
+		return;
+	}
+
+	auto tmp = X % 10;
+	if(tmp % 5 == tmp || tmp == 5) now += 100 + tmp;
+	else now += 200 + tmp;
+
+	debug now.writeln;
+
+	tmp = X % 100 / 10 * 10;
+	now += tmp / 5 * 100;
+
+	debug now.writeln;
+	if(now > X) {
+		writeln(0);
+	} else writeln(1);
 }
 
 // ===================================
@@ -47,10 +67,6 @@ T[][] readMatrix(T)(uint height, uint width) if (isSomeChar!T) {
 
 int ri() {
 	return readAs!int;
-}
-
-long rl() {
-	return readAs!long;
 }
 
 double rd() {

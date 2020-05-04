@@ -1,5 +1,28 @@
 void main() {
+	auto N = readAs!long;
+	auto A = readAs!(long[]);
+	auto B = readAs!(long[]);
 
+	long res;
+
+	foreach(i, v; B) {
+		debug A.writeln;
+		if(v >= A[i]) {
+			auto tmp = v - A[i];
+			res += A[i];
+			A[i] = 0;
+			debug tmp.writeln;
+			auto m = max(0, A[i+1] - tmp);
+			res += A[i+1] - m;
+			A[i+1] = m;
+			
+		} else {
+			res += v;
+			A[i] -= v;
+		}
+	}
+	debug A.writeln;
+	res.writeln;
 }
 
 // ===================================
@@ -47,10 +70,6 @@ T[][] readMatrix(T)(uint height, uint width) if (isSomeChar!T) {
 
 int ri() {
 	return readAs!int;
-}
-
-long rl() {
-	return readAs!long;
 }
 
 double rd() {

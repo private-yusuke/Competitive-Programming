@@ -1,7 +1,13 @@
 void main() {
 	auto N = ri;
 	auto B = readAs!(int[]);
-	
+	auto arr = new int[](N);
+	arr[0] = B[0];
+	arr[$ - 1] = B[$ - 1];
+	foreach(i; 1..N-1) {
+		arr[i] = min(B[i], B[i-1]);
+	}
+	arr.sum.writeln;
 }
 
 // ===================================

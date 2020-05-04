@@ -1,11 +1,27 @@
 void main() {
 	auto ip = readAs!(int[]), a = ip[0], b = ip[1], c = ip[2];
-	ulong cnt;
-	int[] divisors;
-	foreach(i; 1..c+1) {
-		if(c%i==0) divisors ~= i;
+	auto div = getDivisors(c).assumeSorted;
+	auto u = div.lowerBound(b+1);
+	auto l = div.lowerBound(a);
+	debug u.writeln;
+	debug l.writeln;
+	debug div.writeln;
+	writeln(u.length - l.length);
+}
+
+ulong[] getDivisors(ulong N) {
+	if(N == 0) return [];
+	if(N == 1) return [1];
+	ulong[] lower_part, upper_part;
+	foreach(i; 1..N.to!real.sqrt.ceil.to!ulong) {
+		if(N % i == 0) {
+			lower_part ~= i;
+			upper_part ~= N / i;
+		}
 	}
-	divisors.filter!(i => a <= i && i <= b).array.length.writeln;
+	upper_part.reverse();
+	if(N.to!real.sqrt.to!ulong ^^ 2 == N) return lower_part ~ N.to!real.sqrt.to!ulong ~ upper_part;
+	else return lower_part ~ upper_part;
 }
 
 // ===================================

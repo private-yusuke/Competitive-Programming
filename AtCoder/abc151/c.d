@@ -1,5 +1,19 @@
 void main() {
-
+	auto ip = readAs!(int[]), N = ip[0], M = ip[1];
+	bool[int] m;
+	int[int] penarr;
+	int penalty;
+	foreach(i; 0..M) {
+		auto ip2 = readln.split, p = ip2[0].to!int, S = ip2[1];
+		if(S == "AC") {
+			if(p-1 in m && !m[p-1] && p-1 in penarr) penalty += penarr[p-1];
+			m[p-1] = true;
+		} else {
+			if(p-1 !in m) m[p-1] = false;
+			if(p-1 !in m || !m[p-1]) penarr[p-1]++;
+		}
+	}
+	writefln("%d %d", m.values.count!(v => v), penalty);
 }
 
 // ===================================
@@ -47,10 +61,6 @@ T[][] readMatrix(T)(uint height, uint width) if (isSomeChar!T) {
 
 int ri() {
 	return readAs!int;
-}
-
-long rl() {
-	return readAs!long;
 }
 
 double rd() {

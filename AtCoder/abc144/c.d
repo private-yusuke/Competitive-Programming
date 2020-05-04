@@ -1,5 +1,27 @@
 void main() {
+	auto N = readAs!long;
+	if(N.to!real.sqrt.to!ulong ^^ 2 == N) {
+		writeln(N.to!real.sqrt.to!ulong * 2 - 2);
+		return;
+	}
+	auto div = getDivisors(N);
+	debug div.writeln;
+	writeln(div[$ / 2 - 1] + div[$ / 2] - 2);
+}
 
+ulong[] getDivisors(ulong N) {
+	if(N == 0) return [];
+	if(N == 1) return [1];
+	ulong[] lower_part, upper_part;
+	foreach(i; 1..N.to!real.sqrt.ceil.to!ulong) {
+		if(N % i == 0) {
+			lower_part ~= i;
+			upper_part ~= N / i;
+		}
+	}
+	upper_part.reverse();
+	if(N.to!real.sqrt.to!ulong ^^ 2 == N) return lower_part ~ N.to!real.sqrt.to!ulong ~ upper_part;
+	else return lower_part ~ upper_part;
 }
 
 // ===================================
@@ -47,10 +69,6 @@ T[][] readMatrix(T)(uint height, uint width) if (isSomeChar!T) {
 
 int ri() {
 	return readAs!int;
-}
-
-long rl() {
-	return readAs!long;
 }
 
 double rd() {

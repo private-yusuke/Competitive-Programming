@@ -1,5 +1,10 @@
 void main() {
-
+	ulong[] res;
+	auto N = rl;
+	foreach(i; 0..N+1) foreach(j; 0..N+1) {
+		res ~= 2^^i * 5^^j;
+	}
+	res.sort().each!writeln;
 }
 
 // ===================================

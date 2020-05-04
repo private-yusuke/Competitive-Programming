@@ -1,5 +1,15 @@
 void main() {
+	auto N = rl;
+	auto A = readAs!(long[]);
+	auto arr = new long[](N);
+	arr.front = A.front;
+	foreach(i; 1..N) arr[i] = arr[i-1] + A[i];
 
+	long res = long.max;
+	foreach(i; 0..N) {
+		res = min(res, abs(arr[$ - 1] - arr[i]*2));
+	}
+	res.writeln;
 }
 
 // ===================================

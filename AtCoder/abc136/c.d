@@ -1,5 +1,16 @@
 void main() {
-
+	auto N = ri;
+	auto H = readAs!(int[]);
+	auto arr = new int[](N);
+	arr.back = H.back;
+	foreach_reverse(i; 0..N-1) arr[i] = min(arr[i+1], H[i]);
+	foreach(i, v; H) {
+		if(v - 1 > arr[i]) {
+			writeln("No");
+			return;
+		}
+	}
+	writeln("Yes");
 }
 
 // ===================================
@@ -47,10 +58,6 @@ T[][] readMatrix(T)(uint height, uint width) if (isSomeChar!T) {
 
 int ri() {
 	return readAs!int;
-}
-
-long rl() {
-	return readAs!long;
 }
 
 double rd() {
