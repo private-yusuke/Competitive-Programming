@@ -1,14 +1,20 @@
 void main() {
-	auto N = ri;
-	alias Pair = Tuple!(int, "a", int, "b");
-	Pair[] pairs;
-	foreach(i; 1..N+1) foreach(j; i+1..N+1) {
-		if(N % 2 == 0 && N - i + 1 == j) continue;
-		if(N % 2 == 1 && N - i == j) continue;
-		pairs ~= Pair(i, j);
+	auto ip = readAs!(int[]), H = ip[0], N = ip[1];
+	auto dp = new int[](H+1);
+	dp[] = 100000000;
+	dp[0] = 0;
+	int[] As, Bs;
+	foreach(i; 0..N) {
+		auto ip2 = readAs!(int[]), A = ip2[0], B = ip2[1];
+		As ~= A, Bs ~= B;
 	}
-	pairs.count.writeln;
-	pairs.each!(p => writefln("%d %d", p[0], p[1]));
+
+	foreach(i; 0..N) {
+		foreach(j; 0..H+1) {
+			dp[min(j + As[i], H)] = min(dp[min(j + As[i], H)], dp[j] + Bs[i]);
+		}
+	}
+	dp[H].writeln;
 }
 
 // ===================================
@@ -56,6 +62,10 @@ T[][] readMatrix(T)(uint height, uint width) if (isSomeChar!T) {
 
 int ri() {
 	return readAs!int;
+}
+
+long rl() {
+	return readAs!long;
 }
 
 double rd() {
