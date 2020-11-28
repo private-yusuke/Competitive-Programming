@@ -1,15 +1,73 @@
 void main() {
-	auto ip = readAs!(int[]), A = ip[0], B = ip[1], Q = ip[2];
-	auto s = A.iota.map!(i => ri).array.assumeSorted;
-	auto t = B.iota.map!(i => ri).array.assumeSorted;
+	auto ip = readAs!(long[]), A = ip[0], B = ip[1], Q = ip[2];
+	auto s = A.iota.map!(i => rl).array.assumeSorted;
+	auto t = B.iota.map!(i => rl).array.assumeSorted;
 	foreach(i; 0..Q) {
-		auto x = ri;
-		auto s_l = s.lowerBound(x).array.length;
-		auto s_r = s.upperBound(x).array.length;
-		auto t_l = t.lowerBound(x).array.length;
-		auto t_r = t.upperBound(x).array.length;
-		writefln("%d %d %d %d", s_l, s_r, t_l, t_r);
-		writefln("%d %d %d %d", s[s_l], s[s_r], t[t_l], t[t_r]);
+		auto x = rl;
+		auto xtl = t.lowerBound(x);
+		auto xtu = t.upperBound(x);
+		auto xsl = s.lowerBound(x);
+		auto xsu = s.upperBound(x);
+
+		long res = long.max;
+
+		if(!xtl.empty) {
+			auto xt = xtl.back;
+			auto tsl = s.lowerBound(xt);
+			auto tsu = s.upperBound(xt);
+
+			ulong tmp = ulong.max;
+			if(!tsl.empty)
+				tmp = min(tmp, abs(tsl.back - xt));
+			if(!tsu.empty)
+				tmp = min(tmp, abs(tsu.front - xt));
+
+			res = min(res, abs(x - xt) + tmp);
+		}
+
+		if(!xtu.empty) {
+			auto xt = xtu.front;
+			auto tsl = s.lowerBound(xt);
+			auto tsu = s.upperBound(xt);
+
+			ulong tmp = ulong.max;
+			if(!tsl.empty)
+				tmp = min(tmp, abs(tsl.back - xt));
+			if(!tsu.empty)
+				tmp = min(tmp, abs(tsu.front - xt));
+
+			res = min(res, abs(x - xt) + tmp);
+		}
+
+		if(!xsl.empty) {
+			auto xs = xsl.back;
+			auto stl = t.lowerBound(xs);
+			auto stu = t.upperBound(xs);
+
+			ulong tmp = ulong.max;
+			if(!stl.empty)
+				tmp = min(tmp, abs(stl.back - xs));
+			if(!stu.empty)
+				tmp = min(tmp, abs(stu.front - xs));
+
+			res = min(res, abs(x - xs) + tmp);
+		}
+
+		if(!xsu.empty) {
+			auto xs = xsu.front;
+			auto stl = t.lowerBound(xs);
+			auto stu = t.upperBound(xs);
+
+			ulong tmp = ulong.max;
+			if(!stl.empty)
+				tmp = min(tmp, abs(stl.back - xs));
+			if(!stu.empty)
+				tmp = min(tmp, abs(stu.front - xs));
+
+			res = min(res, abs(x - xs) + tmp);
+		}
+
+		res.writeln;
 	}
 	
 }
@@ -59,6 +117,10 @@ T[][] readMatrix(T)(uint height, uint width) if (isSomeChar!T) {
 
 int ri() {
 	return readAs!int;
+}
+
+long rl() {
+	return readAs!long;
 }
 
 double rd() {
